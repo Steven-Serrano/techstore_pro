@@ -12,6 +12,9 @@
 </head>
 <body>
 
+<!-- BARRA SCROLL — S06: div vacío, el CSS lo posiciona y el JS le da el ancho -->
+<div class="barra-scroll" id="barra-scroll"></div>
+
   <!-- ============================================================
        HEADER — Copia este bloque IGUAL en todas las páginas
        Solo cambia el class="activo" al enlace de la página actual
@@ -48,6 +51,14 @@
       <a href="nosotros.html">Nosotros</a>
       <a href="contacto.html">Contacto</a>
     </nav>
+<div class="header-acciones">
+      <button id="btn-tema" class="btn-tema" aria-label="Cambiar tema">🌙</button>
+      <div class="carrito-badge-contenedor">
+        <span>🛒</span>
+        <span class="carrito-badge" id="carrito-badge">0</span>
+      </div>
+    </div>
+  </header>
   </header>
 
   <!-- ============================================================
