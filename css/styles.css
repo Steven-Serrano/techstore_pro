@@ -987,6 +987,27 @@ body.tema-oscuro .modal-caja  { background: #1e293b; color: #f1f5f9; }
 body.tema-oscuro .modal-titulo { color: #f1f5f9; }
 body.tema-oscuro .modal-desc   { color: #94a3b8; }
 
+/* ===== TEMA OSCURO DE REGISTRO ===== */
+
+.campo select option{
+    color: var(--color-texto);
+    background: var(--color-blanco);
+}
+body.tema-oscuro .campo select{
+    background: #1e293b;
+    color: #f8fafc;
+    border-color: #334155;
+}
+
+body.tema-oscuro .campo select option{
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+body.tema-oscuro .campo select:focus{
+    background: #1e293b;
+}
+
 /* ===== S07: BADGE CARRITO ===== */
 .carrito-badge-contenedor {
   position: relative;
@@ -1062,4 +1083,17 @@ body.tema-oscuro .modal-desc   { color: #94a3b8; }
   text-align: center;
   padding: 40px;
   color: var(--color-texto-suave);
+}
+
+/* ===== S08: ERROR FETCH ===== */
+.error-fetch {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 32px;
+  color: #ef4444;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
