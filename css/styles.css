@@ -987,25 +987,66 @@ body.tema-oscuro .modal-caja  { background: #1e293b; color: #f1f5f9; }
 body.tema-oscuro .modal-titulo { color: #f1f5f9; }
 body.tema-oscuro .modal-desc   { color: #94a3b8; }
 
-/* ===== TEMA OSCURO DE REGISTRO ===== */
+/* ===== INPUTS TEMA OSCURO ===== */
 
-.campo select option{
-    color: var(--color-texto);
-    background: var(--color-blanco);
-}
-body.tema-oscuro .campo select{
-    background: #1e293b;
-    color: #f8fafc;
-    border-color: #334155;
+body.tema-oscuro .campo input,
+body.tema-oscuro .campo textarea {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155 !important;
 }
 
-body.tema-oscuro .campo select option{
-    background: #1e293b;
-    color: #f8fafc;
+body.tema-oscuro .campo input::placeholder,
+body.tema-oscuro .campo textarea::placeholder {
+  color: #94a3b8 !important;
 }
 
-body.tema-oscuro .campo select:focus{
-    background: #1e293b;
+body.tema-oscuro .campo input:focus,
+body.tema-oscuro .campo textarea:focus {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border-color: var(--color-primario) !important;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
+}
+
+
+/* ===== SELECTS TEMA OSCURO ===== */
+
+body.tema-oscuro .campo select {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155 !important;
+}
+
+body.tema-oscuro .campo select option {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+
+/* ===== ARREGLAR EL CUADRO DE CUENTA REGISTRADA ===== */
+
+body.tema-oscuro #resumen-registro > div {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.tema-oscuro #resumen-registro h3 {
+  color: #60a5fa !important;
+}
+
+body.tema-oscuro #resumen-registro p,
+body.tema-oscuro #resumen-registro strong {
+  color: #f8fafc !important;
+}
+
+
+/* ===== BOTÓN CERRAR SESIÓN ===== */
+
+body.tema-oscuro #resumen-registro button {
+  background: #ef4444 !important;
+  color: white !important;
 }
 
 /* ===== S07: BADGE CARRITO ===== */
