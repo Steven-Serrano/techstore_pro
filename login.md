@@ -1,0 +1,1 @@
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhODdiNWU5ODllNWQzYmM2NDcyMDkwZCIsImVtYWlsIjoibWFyem8zMzNSQGdtYWlsLmNvbSIsImlhdCI6MTc4NzI4MDM1MSwiZXhwIjoxNzg3MzY2NzUxfQ.i6wdiqXaKek4jvoaVJpNjb8bwIjArTOrhE9QDSeZnvQ","nombre":"Steven Serrano"}
