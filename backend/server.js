@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const Producto = require('./models/Producto');
 const authRoutes = require('./routes/auth');
 const verificarToken = require('./middleware/auth');
+const productosRoutes = require('./routes/productos');
+const ordenesRoutes = require('./routes/ordenes')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,54 +19,6 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('✅ conectado a MongoDB Atlas'))
     .catch((err) => console.error('❌ error de conexion', err));
-
-
-app.get('/productos', async (req, res) => {
-    try {
-        const productos = await Producto.find();
-        res.json(productos);
-    } catch (err) {
-        res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-});
-
-
-
-app.post('/api/productos', verificarToken, async (req, res) => {
-    try {
-        const nuevoProducto = await Producto.create(req.body);
-        res.status(201).json(nuevoProducto);
-    } catch (err) {
-        res.status(400).json({error: err.message});
-    }
-});
-
-
-app.put('/api/productos/:id', verificarToken, async (req, res) => {
-    try{
-        const actualizado = await Producto.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {new: true}
-        );
-        if(!actualizado)return res.status(404).json({error: 'Producto no encontrado'});
-        res.json(actualizado);
-    } catch (err){
-        res.status(400).json({errror: err.message});
-    }
-});
-
-
-
-app.delete('/api/productos/:id', verificarToken, async (req, res) => {
-    try{
-        const eliminado = await Producto.findByIdAndDelete(req.params.id);
-        if (eliminado) return res.status(404).json({error: 'producto no encontrado'});
-        res.json({mensaje: 'producto eliminado correctamente', eliminado});
-    } catch (err){
-        res.status(400).json({error: err.message});
-    }
-});
 
 
 //9    
@@ -80,3 +34,9 @@ app.listen(PORT, () => {
 
 // 11. rutas de autenticacion
 app.use('/api/auth', authRoutes);
+
+// 12 rutas de productos
+app.use('/api/productos', productosRoutes);
+
+// 13. ruta de ordenes
+app.use('/api/ordenes', ordenesRoutes);
