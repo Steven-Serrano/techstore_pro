@@ -8,7 +8,7 @@ const router  = express.Router();
 //2 POST crear cuenta
 router.post('/registro', async (req, res) => {
     try {
-        const { nombre, email, password, rol } = req.body;
+        const { nombre, email, password, departamento, municipio, rol } = req.body;
 
         // verificar que el email no exista ya
         const existe = await Usuario.findOne({ email });
@@ -21,6 +21,8 @@ router.post('/registro', async (req, res) => {
         const usuario = await Usuario.create({
     nombre,
     email,
+    departamento,
+    municipio,
     password: hash,
     rol
 });
