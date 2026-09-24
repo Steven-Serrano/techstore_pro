@@ -1,14 +1,14 @@
 /* ============================================================
-   VARIABLES CSS — ✏️ PERSONALIZA ESTOS COLORES
-   Son los colores de tu proyecto. Cámbialos aquí y se
-   actualizan en toda la página automáticamente.
-   ============================================================ */
+  VARIABLES CSS — ✏️ PERSONALIZA ESTOS COLORES
+  Son los colores de tu proyecto. Cámbialos aquí y se
+  actualizan en toda la página automáticamente.
+  ============================================================ */
 :root {
   /* ✏️ Color principal de tu marca (botones, enlaces activos, acentos) */
   --color-primario:    #2563eb;
 
   /* ✏️ Color secundario (hover, detalles) */
-  --color-secundario:  #1d4ed8;
+  --color-secundario:  #1d4ed8
 
   /* ✏️ Color oscuro (header, footer, textos) */
   --color-oscuro:      #1e293b;
@@ -135,6 +135,20 @@ a:hover { color: var(--color-secundario); }
   color: white;
   background: var(--color-primario);
 }
+
+/* Botón de acciones del header - derecha */
+.btn-login-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  background: var(--color-primario);
+  padding: 7px 18px;
+  border-radius: 8px;
+  transition: opacity .2s;
+  white-space: nowrap;
+}
+
+.btn-login-header:hover { opacity: .85; }
 
 /* Botón hamburguesa — visible solo en móvil */
 .menu-toggle {
@@ -667,7 +681,7 @@ a:hover { color: var(--color-secundario); }
   border-radius: var(--radio);
   font-size: 15px;
   font-family: inherit;
-  color: var(--color-texto);
+  color: var(--color-oscuro);
   background: var(--color-fondo);
   transition: border-color .2s, box-shadow .2s;
   outline: none;
@@ -756,6 +770,7 @@ a:hover { color: var(--color-secundario); }
     position: absolute;
     top: var(--alto-header);
     left: 0; right: 0;
+    transform: none;
     background: var(--color-oscuro);
     flex-direction: column;
     padding: 16px;
@@ -912,6 +927,8 @@ a:hover { color: var(--color-secundario); }
   background: #2d8400;
 }
 
+
+/* ----- BARRA DE PROGRESO SCROLL - S06 ---------- */
 .barra-scroll {
   position: fixed;
   top: 0;
@@ -945,9 +962,9 @@ a:hover { color: var(--color-secundario); }
 .badge-disponible.visible {
   display: inline-block;
 }
-/* ===== S07: TEMA OSCURO ===== */
 
-/* Mismo padding que los links del nav — así queda alineado */
+/* ------ S07: TEMA OSCURO ------*/
+
 .btn-tema {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -956,13 +973,13 @@ a:hover { color: var(--color-secundario); }
   cursor: pointer;
   font-size: 15px;
   color: white;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2, border-color 0.2;
   line-height: 1;
 }
 
 .btn-tema:hover {
   background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* Variables del tema oscuro */
@@ -987,66 +1004,10 @@ body.tema-oscuro .modal-caja  { background: #1e293b; color: #f1f5f9; }
 body.tema-oscuro .modal-titulo { color: #f1f5f9; }
 body.tema-oscuro .modal-desc   { color: #94a3b8; }
 
-/* ===== INPUTS TEMA OSCURO ===== */
-
-body.tema-oscuro .campo input,
-body.tema-oscuro .campo textarea {
-  background: #1e293b !important;
-  color: #f8fafc !important;
-  border: 1px solid #334155 !important;
-}
-
-body.tema-oscuro .campo input::placeholder,
-body.tema-oscuro .campo textarea::placeholder {
-  color: #94a3b8 !important;
-}
-
-body.tema-oscuro .campo input:focus,
-body.tema-oscuro .campo textarea:focus {
-  background: #1e293b !important;
-  color: #ffffff !important;
-  border-color: var(--color-primario) !important;
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
-}
-
-
-/* ===== SELECTS TEMA OSCURO ===== */
-
-body.tema-oscuro .campo select {
-  background: #1e293b !important;
-  color: #f8fafc !important;
-  border: 1px solid #334155 !important;
-}
-
-body.tema-oscuro .campo select option {
-  background: #1e293b;
-  color: #f8fafc;
-}
-
-
-/* ===== ARREGLAR EL CUADRO DE CUENTA REGISTRADA ===== */
-
-body.tema-oscuro #resumen-registro > div {
-  background: #1e293b !important;
-  border: 1px solid #334155 !important;
-  color: #f8fafc !important;
-}
-
-body.tema-oscuro #resumen-registro h3 {
-  color: #60a5fa !important;
-}
-
-body.tema-oscuro #resumen-registro p,
-body.tema-oscuro #resumen-registro strong {
-  color: #f8fafc !important;
-}
-
-
-/* ===== BOTÓN CERRAR SESIÓN ===== */
-
-body.tema-oscuro #resumen-registro button {
-  background: #ef4444 !important;
-  color: white !important;
+.header-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ===== S07: BADGE CARRITO ===== */
@@ -1083,12 +1044,6 @@ body.tema-oscuro #resumen-registro button {
   display: none;
 }
 
-.header-acciones {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 /* ===== S07: PÁGINA CARRITO ===== */
 .seccion-carrito {
   max-width: 800px;
@@ -1107,11 +1062,34 @@ body.tema-oscuro #resumen-registro button {
   margin-bottom: 12px;
 }
 
-.carrito-item-icono { font-size: 32px; }
-.carrito-item-info  { flex: 1; }
-.carrito-item-nombre { font-weight: 700; color: var(--color-oscuro); }
-.carrito-item-precio { color: var(--color-primario); font-weight: 700; }
-.carrito-item-fecha  { font-size: 12px; color: var(--color-texto-suave); }
+.carrito-item-icono { 
+  font-size: 32px;
+}
+
+.carrito-item-img {
+  width: 78px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 8;
+}
+.carrito-item-info  { 
+  flex: 1; 
+}
+
+.carrito-item-nombre { 
+  font-weight: 700; 
+  color: var(--color-oscuro); 
+}
+
+.carrito-item-precio { 
+  color: var(--color-primario); 
+  font-weight: 700; 
+}
+.carrito-item-fecha  { 
+  font-size: 12px;
+  color: var(--color-texto-suave); 
+}
 
 .carrito-acciones {
   display: flex;
@@ -1138,3 +1116,393 @@ body.tema-oscuro #resumen-registro button {
   align-items: center;
   gap: 16px;
 }
+
+/* ══════════════════════════════════════════════
+   S17d: PÁGINA DE PRODUCTO INDIVIDUAL
+   Aplica solo en producto.html
+   ══════════════════════════════════════════════ */
+
+/* Contenedor principal — imagen a la izquierda, info a la derecha */
+.producto-detalle {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+  display: flex;       /* lado a lado en desktop */
+  gap: 48px;
+  flex-wrap: wrap;     /* apilados en mobile */
+  align-items: flex-start;
+}
+
+/* Lado izquierdo — imagen del producto */
+.producto-imagen-wrap {
+  flex: 1 1 300px;     /* crece, pero mínimo 300px */
+  max-width: 400px;
+}
+
+/* La imagen ocupa todo el ancho de su contenedor */
+.producto-imagen-wrap img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  object-fit: cover;
+}
+
+/* Si no hay imagen, mostrar el emoji centrado en un cuadrado */
+.producto-imagen-placeholder {
+  width: 100%;
+  aspect-ratio: 1;            /* cuadrado perfecto */
+  background: #f3f4f6;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+}
+
+/* Lado derecho — información del producto */
+.producto-info {
+  flex: 1 1 280px;
+}
+
+/* Nombre grande del producto */
+.producto-nombre {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+/* Precio destacado en azul */
+.producto-precio {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 20px;
+}
+
+/* Descripción con buena legibilidad */
+.producto-descripcion {
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* Fila de botones de acción */
+.producto-acciones {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Estados de carga y error — centrados en la página */
+.producto-cargando,
+.producto-error {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+/* Botón "← Volver a productos" con borde */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 600;
+  transition: border-color 0.2s;
+}
+.btn-volver:hover { border-color: #6b7280; }
+
+/* ── Modo oscuro ── */
+.tema-oscuro .producto-imagen-placeholder { background: #1f2937; }
+.tema-oscuro .producto-descripcion        { color: #9ca3af; }
+.tema-oscuro .btn-volver                  { color: #d1d5db; border-color: #374151; }
+.tema-oscuro .btn-volver:hover            { border-color: #6b7280; }  
+
+/* ══════════════════════════════════════════════
+   S17d: PÁGINA MIS PEDIDOS
+   Aplica solo en mispedidos.html
+   ══════════════════════════════════════════════ */
+
+/* Contenedor principal centrado */
+.pedidos-contenedor {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.pedidos-titulo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pedidos-subtitulo {
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+/* Cada pedido es una tarjeta con borde */
+.pedido-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+/* Encabezado: id + fecha a la izquierda, badge a la derecha */
+.pedido-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* ID del pedido en fuente monospace y gris claro */
+.pedido-id {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-family: monospace;
+}
+
+.pedido-fecha {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Badge de estado con colores semánticos */
+.badge-estado {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;        /* píldora redondeada */
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-estado.pendiente  { background: #fef9c3; color: #854d0e; }
+.badge-estado.enviado    { background: #dbeafe; color: #1e40af; }
+.badge-estado.entregado  { background: #dcfce7; color: #166534; }
+.badge-estado.cancelado  { background: #fee2e2; color: #991b1b; }
+
+/* Lista de productos dentro del pedido */
+.pedido-productos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 12px;
+}
+
+.pedido-productos li {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* Total alineado a la derecha */
+.pedido-total {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111827;
+}
+
+/* ── Modo oscuro ── */
+.tema-oscuro .pedido-card            { background: #1f2937; border-color: #374151; }
+.tema-oscuro .pedido-productos       { border-color: #374151; }
+.tema-oscuro .pedido-productos li    { color: #9ca3af; }
+.tema-oscuro .pedido-total           { color: #f9fafb; }
+.tema-oscuro .pedido-fecha,
+.tema-oscuro .pedidos-subtitulo      { color: #6b7280; }
+.tema-oscuro .badge-estado.pendiente { background: #422006; color: #fde68a; }
+.tema-oscuro .badge-estado.enviado   { background: #1e3a5f; color: #93c5fd; }
+.tema-oscuro .badge-estado.entregado { background: #14432a; color: #86efac; }
+.tema-oscuro .badge-estado.cancelado { background: #450a0a; color: #fca5a5; }
+
+/* ══════════════════════════════════════════════
+   S17d: DROPDOWN DE USUARIO EN EL HEADER
+   Aparece al hacer clic en el nombre del usuario logueado
+   ══════════════════════════════════════════════ */
+
+/* Contenedor relativo para posicionar el dropdown */
+.usuario-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Botón que muestra el nombre del usuario */
+.usuario-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+.usuario-btn:hover { opacity: .85; }
+
+/* Flecha que indica que hay un menú */
+.usuario-btn::after {
+  content: '▾';
+  font-size: 11px;
+  margin-left: 2px;
+}
+
+/* Menú desplegable — oculto por defecto */
+.usuario-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* Mostrar el menú cuando tiene la clase .abierto */
+.usuario-menu.abierto { display: block; }
+
+/* Cada opción del menú */
+.usuario-menu a,
+.usuario-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s;
+}
+.usuario-menu a:hover,
+.usuario-menu button:hover { background: #f9fafb; }
+
+/* Separador antes de "Cerrar sesión" */
+.usuario-menu .menu-separador {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+/* "Cerrar sesión" en rojo */
+.usuario-menu .btn-cerrar-sesion       { color: #dc2626; }
+.usuario-menu .btn-cerrar-sesion:hover { background: #fee2e2; }
+
+/* ── Modo oscuro ── */
+.tema-oscuro .usuario-menu              { background: #1f2937; border-color: #374151; }
+.tema-oscuro .usuario-menu a,
+.tema-oscuro .usuario-menu button       { color: #e5e7eb; }
+.tema-oscuro .usuario-menu a:hover,
+.tema-oscuro .usuario-menu button:hover { background: #374151; }
+.tema-oscuro .menu-separador            { background: #374151; }
+.tema-oscuro .btn-cerrar-sesion         { color: #f87171; }
+.tema-oscuro .btn-cerrar-sesion:hover   { background: #450a0a; }
+
+/* ══════════════════════════════════════════════
+   S17d: PERFIL DE USUARIO (perfil.html)
+   ══════════════════════════════════════════════ */
+
+.perfil-contenedor {
+  max-width: 520px;
+  margin: 60px auto;
+  padding: 40px 32px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.perfil-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-primario);
+  color: white;
+  font-size: 2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.perfil-nombre {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.perfil-rol {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #ede9fe;
+  color: #6d28d9;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+
+.perfil-info {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.perfil-campo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-radius: 10px;
+  gap: 12px;
+}
+
+.perfil-etiqueta { font-size: 0.85rem; color: #6b7280; white-space: nowrap; }
+.perfil-valor    { font-size: 0.95rem; font-weight: 600; color: #111827; text-align: right; }
+.perfil-acciones { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.perfil-cargando,
+.perfil-error { text-align: center; padding: 80px 24px; color: #6b7280; }
+
+/* ── Modo oscuro ── */
+.tema-oscuro .perfil-contenedor { background: #1f2937; }
+.tema-oscuro .perfil-nombre     { color: #f9fafb; }
+.tema-oscuro .perfil-rol        { background: #4c1d95; color: #ddd6fe; }
+.tema-oscuro .perfil-campo      { background: #111827; }
+.tema-oscuro .perfil-etiqueta   { color: #9ca3af; }
+.tema-oscuro .perfil-valor      { color: #f9fafb; }

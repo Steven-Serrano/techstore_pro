@@ -9,10 +9,11 @@
   -->
   <title>TechStore Pro | Inicio</title>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://checkout.wompi.co/widget.js"></script>
 </head>
 <body>
 
-<!-- BARRA SCROLL — S06: div vacío, el CSS lo posiciona y el JS le da el ancho -->
+  <!-- BARRA SCROLL — S06: div vacío, el CSS lo posiciona y el JS le da el ancho -->
 <div class="barra-scroll" id="barra-scroll"></div>
 
   <!-- ============================================================
@@ -39,20 +40,15 @@
 
     <nav id="nav-menu" class="nav-menu">
       <!-- class="activo" va en el enlace de la página actual -->
-      <a href="index.html" class="activo">Inicio</a>
-      <!--
-        ✏️ Ajusta los nombres según tu proyecto:
-        - Tienda: "Productos", "Ofertas"
-        - Servicios: "Servicios", "Portafolio"
-        - Educación: "Cursos", "Instructores"
-        - Restaurante: "Menú", "Reservas"
-      -->
+      <a href="index.html">Inicio</a>
       <a href="productos.html">Productos</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="contacto.html">Contacto</a>
       <a href="registro.html">Registro</a>
     </nav>
-<div class="header-acciones">
+    
+    <div class="header-acciones">
+      <a href="login.html" id="nav-login" class="btn-login-header">Login</a>
       <button id="btn-tema" class="btn-tema" aria-label="Cambiar tema">🌙</button>
       <div class="carrito-badge-contenedor">
         <span>🛒</span>
@@ -60,28 +56,33 @@
       </div>
     </div>
   </header>
-  </header>
 
-<main>
-  <section class="seccion-carrito" id="seccion-carrito">
-    <div class="seccion-header">
-      <h2>🛒 Mi carrito</h2>
-      <p id="carrito-resumen">Cargando...</p>
-    </div>
+    <!-- ============================================================
+    MAIN — Contenido único de esta página
+    ============================================================ -->
+    <main>
+        <section class="seccion-carrito" id="seccion-carrito">
+            <div class="seccion-header">
+            <h2>🛒 Mi carrito</h2>
+            <p id="carrito-resumen">Cargando...</p>
+            </div>
     
-    <!-- ✏️ La lista de productos se genera con JavaScript -->
-    <div id="lista-carrito"></div>
+            <!-- ✏️ La lista de productos se genera con JavaScript -->
+            <div id="lista-carrito"></div>
     
-    <!-- Botón para vaciar el carrito -->
-    <div class="carrito-acciones">
-      <button id="btn-vaciar" class="btn btn-secundario">🗑️ Vaciar carrito</button>
-      <a href="index.html" class="btn btn-primario">Seguir comprando</a>
-    </div>
-  </section>
-</main>
+            <!-- Botón para vaciar el carrito -->
+            <div class="carrito-acciones">
+                <button id="btn-vaciar" class="btn btn-secundario">🗑️ Vaciar carrito</button>
+                <a href="index.html" class="btn btn-primario">Seguir comprando</a>
+                <button id="btn-confirmar" class="btn btn-primario">💳 Pagar con Wompi</button>
+            </div>
+            <div id="checkout-mensaje" style="display: none; margin-top:28px;"></div>
+        </section>
+    </main>
+
   <!-- ============================================================
-       FOOTER — Copia este bloque IGUAL en todas las páginas
-       ============================================================ -->
+        FOOTER — Copia este bloque IGUAL en todas las páginas
+        ============================================================ -->
   <footer class="footer">
     <div class="footer-contenido">
       <div class="footer-marca">
@@ -95,6 +96,7 @@
         <a href="productos.html">Productos</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contacto</a>
+        <a href="registro.html">Registro</a>
       </nav>
       <div class="footer-contacto">
         <h4>Contacto</h4>
@@ -109,6 +111,7 @@
   </footer>
 
   <script src="js/main.js"></script>
+
 
 
 </body>

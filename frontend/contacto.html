@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contacto | TechStore Pro</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
-<!-- BARRA SCROLL — S06: div vacío, el CSS lo posiciona y el JS le da el ancho -->
-<div class="barra-scroll" id="barra-scroll"></div>
+  <!-- BARRA SCROLL — S06: div vacío, el CSS lo posiciona y el JS le da el ancho -->
+  <div class="barra-scroll" id="barra-scroll"></div>
 
   <!-- HEADER — Igual en todas las páginas -->
   <header class="header">
@@ -25,9 +27,11 @@
       <a href="productos.html">Productos</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="contacto.html" class="activo">Contacto</a>
+      <a href="registro.html">Registro</a>
     </nav>
- <button id="btn-tema" class="btn-tema" aria-label="Cambiar tema">🌙</button>
-  </header>
+
+    <a href="login.html" id="nav-login" class="btn-login-header">Login</a>
+    <button id="btn-tema" class="btn-tema" aria-label="Cambiar-tema">🌙</button>
   </header>
 
   <main>
@@ -63,33 +67,19 @@
 
         <div class="campo">
           <label for="nombre">Nombre completo *</label>
-          <input type="text"
-                 id="nombre"
-                 name="nombre"
-                 placeholder="Tu nombre y apellido"
-                 autocomplete="name"
-                 required>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" autocomplete="name" required>
           <span class="error" id="error-nombre"></span>
         </div>
 
         <div class="campo">
           <label for="email">Correo electrónico *</label>
-          <input type="email"
-                 id="email"
-                 name="email"
-                 placeholder="tucorreo@ejemplo.com"
-                 autocomplete="email"
-                 required>
+          <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
           <span class="error" id="error-email"></span>
         </div>
 
         <div class="campo">
           <label for="telefono">Teléfono (opcional)</label>
-          <input type="tel"
-                 id="telefono"
-                 name="telefono"
-                 placeholder="300 000 0000"
-                 autocomplete="tel">
+          <input type="tel" id="telefono" name="telefono" placeholder="300 000 0000" autocomplete="tel">
           <span class="error" id="error-telefono"></span>
         </div>
 
@@ -113,11 +103,7 @@
 
         <div class="campo">
           <label for="mensaje">Mensaje *</label>
-          <textarea id="mensaje"
-                    name="mensaje"
-                    rows="5"
-                    placeholder="Escribe tu mensaje aquí..."
-                    required></textarea>
+          <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
           <span class="error" id="error-mensaje"></span>
         </div>
 
@@ -129,7 +115,8 @@
           Mensaje de éxito — oculto por CSS, JavaScript lo mostrará
           después de validar y "enviar" el formulario
         -->
-        <div id="form-exito" style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px; color:#166534; font-weight:600;">
+        <div id="form-exito"
+          style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px; color:#166534; font-weight:600;">
           ✅ ¡Mensaje enviado! Te contactaremos pronto.
         </div>
 
@@ -209,8 +196,9 @@
       <p>&copy; 2026 TechStore Pro — Todos los derechos reservados</p>
     </div>
   </footer>
-  
-<script src="js/main.js"></script>
+
+  <script src="js/main.js"></script>
 
 </body>
+
 </html>

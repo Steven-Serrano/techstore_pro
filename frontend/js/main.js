@@ -1,1136 +1,703 @@
 // ================================================
 // EJERCICIO 1: MENÚ HAMBURGUESA
-// Archivo: js/main.js
+// Archivo: js/main.js  ← este archivo
 // Funciona en: index.html, productos.html,
 //              nosotros.html, contacto.html
 // ================================================
 
 // PASO 1 — Buscar el botón hamburguesa en el HTML
+// Tu index.html tiene:  <button id="menu-toggle" ...>
+// querySelector('#menu-toggle') lo encuentra por su id
 const botonMenu = document.querySelector('#menu-toggle');
 
 // PASO 2 — Buscar el nav en el HTML
+// Tu index.html tiene:  <nav id="nav-menu" class="nav-menu">
 const navMenu = document.querySelector('#nav-menu');
 
 // PASO 3 — Escuchar el clic en el botón
-if (botonMenu && navMenu) {
-  botonMenu.addEventListener('click', function() {
+// "cuando el usuario haga clic en botonMenu, ejecuta esta función"
+botonMenu.addEventListener('click', function() {
 
-    // PASO 4 — Alternar la clase 'open' en el nav
-    navMenu.classList.toggle('open');
+  // PASO 4 — Alternar la clase 'open' en el nav
+  // Tu styles.css tiene: .nav-menu.open { display: flex; }
+  // toggle agrega 'open' si no la tiene, la quita si ya la tiene
+  navMenu.classList.toggle('open');
 
-    // PASO 5 — Actualizar aria-expanded
-    const estaAbierto = navMenu.classList.contains('open');
-    botonMenu.setAttribute('aria-expanded', estaAbierto);
+  // PASO 5 — Actualizar aria-expanded (accesibilidad)
+  // Dice si el menú está abierto (true) o cerrado (false)
+  const estaAbierto = navMenu.classList.contains('open');
+  botonMenu.setAttribute('aria-expanded', estaAbierto);
 
-  });
-}
-
+});
 
 // PASO 6 — Cerrar el menú cuando el usuario toca un enlace
-if (navMenu && botonMenu) {
-  const enlaces = navMenu.querySelectorAll('a');
+// navMenu.querySelectorAll('a') encuentra los 4 enlaces del nav
+const enlaces = navMenu.querySelectorAll('a');
 
-  enlaces.forEach(function(enlace) {
-    enlace.addEventListener('click', function() {
-
-      navMenu.classList.remove('open');
-      botonMenu.setAttribute('aria-expanded', 'false');
-
-    });
+enlaces.forEach(function(enlace) {
+  enlace.addEventListener('click', function() {
+    // Al tocar un enlace: cerrar el menú
+    navMenu.classList.remove('open');
+    botonMenu.setAttribute('aria-expanded', 'false');
   });
-}
-
+});
 
 // ================================================
 // EJERCICIO 2: VALIDAR FORMULARIO DE CONTACTO
 // Funciona en: contacto.html
+// El formulario tiene id="form-contacto" y novalidate
 // ================================================
 
 // PASO 1 — Encontrar el formulario
+// Tu contacto.html tiene:  <form id="form-contacto" novalidate>
 const formulario = document.querySelector('#form-contacto');
 
-
-// PASO 2 — Funciones auxiliares para mostrar y limpiar errores
+// PASO 2 — Dos funciones auxiliares para mostrar y limpiar errores
+// Los campos en contacto.html tienen esta estructura:
+//   <div class="campo">
+//     <input id="nombre">
+//     <span class="error" id="error-nombre"></span>
+//   </div>
+// La clase .tiene-error en styles.css pone el borde rojo
 
 function mostrarError(idCampo, mensaje) {
-
-  const campo = document.querySelector('#' + idCampo);
+  const campo     = document.querySelector('#' + idCampo);
   const spanError = document.querySelector('#error-' + idCampo);
-
-  if (campo) {
-    const contenedor = campo.closest('.campo');
-
-    if (contenedor) {
-      contenedor.classList.add('tiene-error');
-    }
-  }
-
-  if (spanError) {
-    spanError.textContent = mensaje;
-  }
+  campo.closest('.campo').classList.add('tiene-error'); // borde rojo
+  spanError.textContent = mensaje;                 // texto del error
 }
-
 
 function limpiarError(idCampo) {
-
-  const campo = document.querySelector('#' + idCampo);
+  const campo     = document.querySelector('#' + idCampo);
   const spanError = document.querySelector('#error-' + idCampo);
-
-  if (campo) {
-    const contenedor = campo.closest('.campo');
-
-    if (contenedor) {
-      contenedor.classList.remove('tiene-error');
-    }
-  }
-
-  if (spanError) {
-    spanError.textContent = '';
-  }
+  campo.closest('.campo').classList.remove('tiene-error'); // quita borde rojo
+  spanError.textContent = '';                          // borra el texto
 }
 
-
 // PASO 3 — Escuchar cuando el usuario hace clic en "Enviar mensaje"
-
-if (formulario) {
-
+// El evento 'submit' se dispara al hacer clic en <button type="submit">
+if (formulario) {  // solo corre en contacto.html donde existe el formulario
   formulario.addEventListener('submit', function(evento) {
 
-    // Evitar que la página se recargue
-    evento.preventDefault();
+    // ✏️ LÍNEA 1 — Evitar que la página se recargue al enviar
+    // Sin esta línea, la página salta y se pierde todo
+    evento.preventDefault(); /* ✏️ escribe: evento.preventDefault() */
 
-    let hayErrores = false;
+    let hayErrores = false; // vamos a cambiar esto a true si hay problemas
 
-
-    // ================================================
-    // VALIDAR NOMBRE
-    // ================================================
-
-    const campoNombre = document.querySelector('#nombre');
-
-    if (campoNombre) {
-
-      const valorNombre = campoNombre.value.trim();
-
-      if (valorNombre.length < 3) {
-
-        mostrarError(
-          'nombre',
-          'Escribe tu nombre completo (mínimo 3 caracteres)'
-        );
-
-        hayErrores = true;
-
-      } else {
-
-        limpiarError('nombre');
-
-      }
+    // VALIDAR NOMBRE — id="nombre" en contacto.html
+    // .value lee lo que escribió el usuario
+    // .trim() elimina espacios al inicio y al final
+    const valorNombre = document.querySelector('#nombre').value.trim();
+    if (valorNombre.length < 3) {
+      mostrarError('nombre', 'Escribe tu nombre completo (mínimo 3 caracteres)');
+      hayErrores = true;
+    } else {
+      limpiarError('nombre');
     }
 
-
-    // ================================================
-    // VALIDAR EMAIL
-    // ================================================
-
-    const campoEmail = document.querySelector('#email');
-
-    if (campoEmail) {
-
-      const valorEmail = campoEmail.value.trim();
-
-      if (!valorEmail.includes('@') || valorEmail.length < 5) {
-
-        mostrarError(
-          'email',
-          'Ingresa un correo válido (debe tener @)'
-        );
-
-        hayErrores = true;
-
-      } else {
-
-        limpiarError('email');
-
-      }
+    // ✏️ LÍNEA 2 — VALIDAR EMAIL — id="email" en contacto.html
+    // Un email válido siempre tiene @ y al menos 5 caracteres
+    const valorEmail = document.querySelector('#email').value.trim();
+    if (!valorEmail.includes('@') || valorEmail.length < 5) {
+      mostrarError('email', 'Ingresa un correo válido (debe tener @)');
+      hayErrores = true;
+    } else {
+      limpiarError('email');
     }
 
-
-    // ================================================
-    // VALIDAR ASUNTO
-    // ================================================
-
-    const campoAsunto = document.querySelector('#asunto');
-
-    if (campoAsunto) {
-
-      const valorAsunto = campoAsunto.value;
-
-      if (valorAsunto === '') {
-
-        mostrarError(
-          'asunto',
-          'Selecciona un asunto'
-        );
-
-        hayErrores = true;
-
-      } else {
-
-        limpiarError('asunto');
-
-      }
+    // VALIDAR ASUNTO — id="asunto" (select) en contacto.html
+    // value === '' significa que dejaron el "-- Selecciona un asunto --"
+    const valorAsunto = document.querySelector('#asunto').value;
+    if (valorAsunto === '') {
+      mostrarError('asunto', 'Selecciona un asunto');
+      hayErrores = true;
+    } else {
+      limpiarError('asunto');
     }
 
-
-    // ================================================
-    // VALIDAR MENSAJE
-    // ================================================
-
-    const campoMensaje = document.querySelector('#mensaje');
-
-    if (campoMensaje) {
-
-      const valorMensaje = campoMensaje.value.trim();
-
-      if (valorMensaje.length < 10) {
-
-        mostrarError(
-          'mensaje',
-          'El mensaje debe tener al menos 10 caracteres'
-        );
-
-        hayErrores = true;
-
-      } else {
-
-        limpiarError('mensaje');
-
-      }
+    // ✏️ LÍNEA 3 — VALIDAR MENSAJE — id="mensaje" (textarea) en contacto.html
+    const valorMensaje = document.querySelector('#mensaje').value.trim();
+    if (valorMensaje.length < 10) {
+      mostrarError('mensaje', 'El mensaje debe tener al menos 10 caracteres');
+      hayErrores = true;
+    } else {
+      limpiarError('mensaje');
     }
 
-
-    // ================================================
-    // RESULTADO FINAL
-    // ================================================
-
+    // RESULTADO FINAL — si todo está bien, mostrar el mensaje de éxito
+    // Tu contacto.html tiene:  <div id="form-exito" style="display:none">
     if (!hayErrores) {
-
-      const formExito = document.querySelector('#form-exito');
-
-      if (formExito) {
-        formExito.style.display = 'block';
-      }
-
-      formulario.reset();
+      document.querySelector('#form-exito').style.display = 'block';
+      formulario.reset(); // limpia todos los campos
     }
 
   });
-
 }
-
 
 // ================================================
 // EJERCICIO 3: TARJETAS DINÁMICAS DESDE ARRAY
+// Funciona en: index.html (y en productos.html si quieres)
+// Requiere: <div id="grid-tarjetas"> vacío en index.html
 // ================================================
 
+// PASO 2 — Función que convierte UN objeto producto en HTML de tarjeta
+// Usa backtick ` (no comillas) para escribir HTML con variables ${...}
+// Las clases .tarjeta .tarjeta-img etc. ya están definidas en styles.css
 function crearTarjeta(producto) {
-
   return `
     <article class="tarjeta"
       data-id="${producto.id}"
+      data-mongo-id="${producto._id}"
       data-icono="${producto.icono || '📦'}"
       data-nombre="${producto.nombre}"
       data-desc="${producto.descripcion}"
-      data-precio="${producto.precio}">
-
+      data-precio="${producto.precio}"
+      data-imagen="${producto.imagen || ''}">
       <span class="badge-disponible">✓ Disponible</span>
-
-      <img
-        src="${producto.imagen}"
-        alt="${producto.nombre}"
-        class="tarjeta-img"
-      >
-
+      <img src="${producto.imagen}" alt="${producto.nombre}" class="tarjeta-img">
       <div class="tarjeta-info">
-
-        <h3 class="tarjeta-nombre">
-          ${producto.nombre}
-        </h3>
-
-        <p class="tarjeta-desc">
-          ${producto.descripcion}
-        </p>
-
+        <h3 class="tarjeta-nombre">${producto.nombre}</h3>
+        <p class="tarjeta-desc">${producto.descripcion}</p>
         <div class="tarjeta-pie">
-
-          <span class="tarjeta-precio">
-            ${producto.precio}
-          </span>
-
-          <button class="btn-accion">
-            Ver más
-          </button>
-
+          <span class="tarjeta-precio">${producto.precio}</span>
+          <a href="producto.html?id=${producto._id || ''}" class="btn-accion">Ver más</a>
         </div>
-
       </div>
-
     </article>
   `;
 }
 
-
 // ================================================
-// MODAL PRODUCTO
-// ================================================
-
-const modal = document.querySelector('#modal-producto');
-
-
-// -----------------------------------------------
-// Abrir modal
-// -----------------------------------------------
-
-function abrirModal(tarjeta) {
-
-  if (!modal || !tarjeta) return;
-
-  const modalIcono = document.querySelector('#modal-icono');
-  const modalTitulo = document.querySelector('#modal-titulo');
-  const modalDesc = document.querySelector('#modal-desc');
-  const modalPrecio = document.querySelector('#modal-precio');
-
-  if (modalIcono) {
-    modalIcono.textContent =
-      tarjeta.dataset.icono || '📦';
-  }
-
-  if (modalTitulo) {
-    modalTitulo.textContent =
-      tarjeta.dataset.nombre || 'Producto';
-  }
-
-  if (modalDesc) {
-    modalDesc.textContent =
-      tarjeta.dataset.desc || '';
-  }
-
-  if (modalPrecio) {
-    modalPrecio.textContent =
-      tarjeta.dataset.precio || '';
-  }
-
-  modal.classList.add('visible');
-}
-
-
-// -----------------------------------------------
-// Registrar botones del modal
-// -----------------------------------------------
-// IMPORTANTE:
-// Esta función está FUERA del if (modal)
-// porque cargarProductos() necesita utilizarla.
-// -----------------------------------------------
-
-function registrarBotonesModal() {
-
-  if (!modal) return;
-
-  document.querySelectorAll('.btn-accion').forEach(function(boton) {
-
-    boton.addEventListener('click', function() {
-
-      const tarjeta = boton.closest('.tarjeta');
-
-      abrirModal(tarjeta);
-
-    });
-
-  });
-}
-
-
-// -----------------------------------------------
-// Eventos para cerrar el modal
-// -----------------------------------------------
-
-if (modal) {
-
-  const btnCerrar = document.querySelector('#modal-cerrar');
-
-
-  // Cerrar con el botón X
-  if (btnCerrar) {
-
-    btnCerrar.addEventListener('click', function() {
-
-      modal.classList.remove('visible');
-
-    });
-
-  }
-
-
-  // Cerrar haciendo clic fuera del contenido
-  modal.addEventListener('click', function(e) {
-
-    if (e.target === modal) {
-
-      modal.classList.remove('visible');
-
-    }
-
-  });
-
-
-  // Cerrar con ESC
-  document.addEventListener('keydown', function(e) {
-
-    if (e.key === 'Escape') {
-
-      modal.classList.remove('visible');
-
-    }
-
-  });
-
-}
-
-
-// ================================================
-// S08: CARGAR PRODUCTOS DESDE JSON / API
+// S08: CARGAR PRODUCTOS DESDE JSON
+// Reemplaza el array hardcodeado de S03.
+// Funciona en: productos.html (donde existe #grid-tarjetas)
+// Requiere: data/productos.json con el array de productos
 // ================================================
 
 async function cargarProductos() {
-
   const grid = document.querySelector('#grid-tarjetas');
-
-  if (!grid) return;
-
+  if (!grid) return; // solo correr en páginas que tienen el grid
 
   try {
+    // PASO 1 — Pedir el archivo JSON al servidor
+    // await pausa aquí hasta que llegue la respuesta (el sobre)
+    const respuesta = await fetch('http://localhost:3000/api/productos'); // URL archivo Js
 
-    // PASO 1 — Pedir los productos al servidor
-    const respuesta =
-      await fetch('http://localhost:3000/api/productos');
+    // PASO 2 — Leer el contenido del JSON como array JavaScript
+    // .json() también es asíncrono → necesita su propio await
+    const productos = await respuesta.json();
 
+    // PASO 3 — Renderizar las tarjetas en el grid
+    // productos.map(crearTarjeta) convierte cada objeto en HTML
+    grid.innerHTML = productos.map(crearTarjeta).join('');
 
-    // Comprobar si el servidor respondió correctamente
-    if (!respuesta.ok) {
-
-      throw new Error(
-        `Error HTTP: ${respuesta.status}`
-      );
-
-    }
-
-
-    // PASO 2 — Convertir respuesta a JSON
-    const productos =
-      await respuesta.json();
-
-
-    // PASO 3 — Renderizar las tarjetas
-    grid.innerHTML =
-      productos.map(crearTarjeta).join('');
-
-
-    // PASO 4 — Registrar eventos
-    // IMPORTANTE:
-    // Se ejecutan DESPUÉS de crear las tarjetas.
-
-    registrarBotonesModal();
-
-    registrarBadgeHover();
-
-    registrarBuscador();
-
+    // PASO 4 — Reconectar todo lo que depende de las tarjetas
+    // Estas funciones buscan .tarjeta en el HTML → deben ir DESPUÉS del innerHTML
+    registrarBotonesModal(); // botones "Ver más" → abrir modal
+    registrarBadgeHover();   // badge "✓ Disponible" al hacer hover
+    registrarBuscador();     // filtro de búsqueda en tiempo real
 
   } catch (error) {
-
+    // Si fetch falla: muestra mensaje visible en la página
     grid.innerHTML = `
       <div class="error-fetch">
-
-        <p>
-          ⚠️ No se pudieron cargar los productos.
-        </p>
-
-        <button
-          onclick="cargarProductos()"
-          class="btn btn-primario">
-
-          Reintentar
-
-        </button>
-
+        <p>⚠️ No se pudieron cargar los productos.</p>
+        <button onclick="cargarProductos()" class="btn btn-primario">Reintentar</button>
       </div>
     `;
-
-    console.error(
-      'Error al cargar productos:',
-      error
-    );
-
+    console.error('Error al cargar productos:', error);
   }
-
 }
 
+cargarProductos(); // ejecutar al cargar la página
 
-// Ejecutar al cargar la página
-cargarProductos();
+// ══════════════════════════════════════════════
+// EJERCICIO 1 · MODAL PRODUCTO
+// Solo en productos.html (donde existe #modal-producto)
+// ══════════════════════════════════════════════
 
+const modal = document.querySelector('#modal-producto');
 
-// ================================================
-// BARRA DE PROGRESO SCROLL
-// ================================================
+if (modal) {
+  const btnCerrar = document.querySelector('#modal-cerrar');
 
-const barraScroll =
-  document.querySelector('#barra-scroll');
+  // Llena el modal con los datos del producto y lo hace visible
+  // tarjeta.dataset lee los atributos data-* del <article class="tarjeta">
+  function abrirModal(tarjeta) {
+    document.querySelector('#modal-icono').textContent  = tarjeta.dataset.icono  || '📦';
+    document.querySelector('#modal-titulo').textContent = tarjeta.dataset.nombre || 'Producto';
+    document.querySelector('#modal-desc').textContent   = tarjeta.dataset.desc   || '';
+    document.querySelector('#modal-precio').textContent = tarjeta.dataset.precio || '';
+    modal.dataset.imagen = tarjeta.dataset.imagen || '';
+    modal.dataset.id     = tarjeta.dataset.id     || '';
+    modal.dataset.mongoId = tarjeta.dataset.mongoId || '';
+    modal.classList.add('visible');
+  }
 
+  // Se llama desde cargarProductos() DESPUÉS de grid.innerHTML
+  // porque los botones .btn-accion los crea crearTarjeta() dinámicamente
+  function registrarBotonesModal() {
+    document.querySelectorAll('.btn-accion').forEach(function(boton) {
+      // si es un enlace <a> el navegador ya lo maneja, no registrar el modal 
+      if (boton.tagName == 'A') return;
+      boton.addEventListener('click', function() {
+        abrirModal(boton.closest('.tarjeta'));
+      });
+    });
+  }
+
+  // Cerrar con el botón ×
+  btnCerrar.addEventListener('click', function() {
+    modal.classList.remove('visible');
+  });
+
+  // Cerrar al hacer clic fuera del modal
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  });
+
+  // Cerrar con la tecla Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') modal.classList.remove('visible');
+  });
+}
+
+// ══════════════════════════════════════════════
+// EJERCICIO 2 · BARRA DE PROGRESO SCROLL
+// Funciona en todas las páginas
+// ══════════════════════════════════════════════
+
+const barraScroll = document.querySelector('#barra-scroll');
 
 if (barraScroll) {
-
   window.addEventListener('scroll', function() {
-
-    const totalDesplazamiento =
-      document.body.scrollHeight -
-      window.innerHeight;
-
-
-    // Evitar división entre cero
-    if (totalDesplazamiento <= 0) {
-
-      barraScroll.style.width = '0%';
-
-      return;
-
-    }
-
-
-    const porcentaje =
-      (window.scrollY /
-        totalDesplazamiento) * 100;
-
-
-    barraScroll.style.width =
-      porcentaje + '%';
-
+    // scrollY = cuántos píxeles hemos bajado
+    // scrollHeight - innerHeight = total de píxeles posibles
+    const totalDesplazamiento = document.body.scrollHeight - window.innerHeight;
+    const porcentaje = (window.scrollY / totalDesplazamiento) * 100;
+    barraScroll.style.width = porcentaje + '%';
   });
+} 
 
-}
-
-
-// ================================================
-// BADGE "DISPONIBLE"
-// ================================================
-
+// Muestra el badge "✓ Disponible" al pasar el mouse por una tarjeta
+// Se llama desde cargarProductos() — las tarjetas deben existir primero
 function registrarBadgeHover() {
-
-  document
-    .querySelectorAll('.tarjeta')
-    .forEach(function(tarjeta) {
-
-      const badge =
-        tarjeta.querySelector('.badge-disponible');
-
-
-      if (badge) {
-
-        tarjeta.addEventListener(
-          'mouseover',
-          function() {
-
-            badge.classList.add('visible');
-
-          }
-        );
-
-
-        tarjeta.addEventListener(
-          'mouseout',
-          function() {
-
-            badge.classList.remove('visible');
-
-          }
-        );
-
-      }
-
-    });
-
-}
-
-
-// ================================================
-// BUSCADOR
-// ================================================
-
-function registrarBuscador() {
-
-  const buscador =
-    document.querySelector('#buscador');
-
-
-  if (!buscador) return;
-
-
-  buscador.addEventListener(
-    'input',
-    function() {
-
-      const termino =
-        buscador.value.toLowerCase();
-
-
-      document
-        .querySelectorAll('.tarjeta')
-        .forEach(function(tarjeta) {
-
-          const nombre =
-            tarjeta.dataset.nombre
-              .toLowerCase();
-
-
-          tarjeta.style.display =
-            nombre.includes(termino)
-              ? 'block'
-              : 'none';
-
-        });
-
+  document.querySelectorAll('.tarjeta').forEach(function(tarjeta) {
+    const badge = tarjeta.querySelector('.badge-disponible');
+    if (badge) {
+      tarjeta.addEventListener('mouseover', function() { badge.classList.add('visible'); });
+      tarjeta.addEventListener('mouseout',  function() { badge.classList.remove('visible'); });
     }
-  );
-
+  });
 }
 
+// Filtra las tarjetas en tiempo real según lo que escribe el usuario
+// Se llama desde cargarProductos() — las tarjetas deben existir primero
+function registrarBuscador() {
+  const buscador = document.querySelector('#buscador');
+  if (!buscador) return; // solo correr en páginas con buscador
+  buscador.addEventListener('input', function() {
+    // .toLowerCase() para que "macbook" encuentre "MacBook"
+    const termino = buscador.value.toLowerCase();
+    document.querySelectorAll('.tarjeta').forEach(function(tarjeta) {
+      const nombre = tarjeta.dataset.nombre.toLowerCase();
+      // muestra u oculta según si el nombre incluye el término buscado
+      tarjeta.style.display = nombre.includes(termino) ? 'block' : 'none';
+    });
+  });
+}
 
-// ================================================
-// S07: TEMA OSCURO
-// ================================================
+// -------- S07: TEMA OSCURO -------//
 
 function toggleTema() {
+  document.body.classList.toggle('tema-oscuro');
 
-  document.body.classList.toggle(
-    'tema-oscuro'
-  );
+  const btn = document.getElementById('btn-tema');
 
-
-  const btn =
-    document.getElementById('btn-tema');
-
-
-  if (
-    document.body.classList.contains(
-      'tema-oscuro'
-    )
-  ) {
-
-    localStorage.setItem(
-      'tema',
-      'oscuro'
-    );
-
-
-    if (btn) {
-
-      btn.textContent = '☀️';
-
-    }
-
+  if (document.body.classList.contains('tema-oscuro')) {
+    localStorage.setItem('tema', 'oscuro');
+    if (btn) btn.textContent = '☀️';
   } else {
-
-    localStorage.setItem(
-      'tema',
-      'claro'
-    );
-
-
-    if (btn) {
-
-      btn.textContent = '🌙';
-
-    }
-
+    localStorage.setItem('tema', 'claro');
+    if (btn) btn.textContent = '🌙';
   }
-
 }
-
-
-// ================================================
-// APLICAR TEMA GUARDADO
-// ================================================
 
 function aplicarTemaGuardado() {
-
-  const tema =
-    localStorage.getItem('tema');
-
-
+  const tema = localStorage.getItem('tema');
   if (tema === 'oscuro') {
-
-    document.body.classList.add(
-      'tema-oscuro'
-    );
-
-
-    const btn =
-      document.getElementById('btn-tema');
-
-
-    if (btn) {
-
-      btn.textContent = '☀️';
-
-    }
-
+    document.body.classList.add('tema-oscuro');
+    const btn = document.getElementById('btn-tema');
+    if (btn) btn.textContent = '☀️';
   }
-
 }
 
+// Conectar el boton y aplicar el tema al cargar 
 
-// ================================================
-// CONECTAR BOTÓN DEL TEMA
-// ================================================
-
-const btnTema =
-  document.getElementById('btn-tema');
-
-
+const btnTema = document.getElementById('btn-tema');
 if (btnTema) {
-
-  btnTema.addEventListener(
-    'click',
-    toggleTema
-  );
-
+  btnTema.addEventListener('click', toggleTema);
 }
 
+aplicarTemaGuardado(); //ejecuta al cargar la pagina 
 
-aplicarTemaGuardado();
+// ===== S07: CARRITO DE COMPRAS =====
 
-
-// ================================================
-// S07: CARRITO DE COMPRAS
-// ================================================
-
-
-// Leer carrito desde LocalStorage
+// Lee el carrito de LocalStorage (o devuelve array vacío)
 function leerCarrito() {
-
-  const guardado =
-    localStorage.getItem('carrito');
-
-
-  return guardado
-    ? JSON.parse(guardado)
-    : [];
-
+  const guardado = localStorage.getItem('carrito');
+  return guardado ? JSON.parse(guardado) : [];
 }
 
-
-// Guardar carrito
+// Guarda el carrito en LocalStorage y actualiza el badge
 function guardarCarrito(carrito) {
-
-  localStorage.setItem(
-    'carrito',
-    JSON.stringify(carrito)
-  );
-
-
+  localStorage.setItem('carrito', JSON.stringify(carrito));
   actualizarBadge();
-
 }
 
-
-// ================================================
-// ACTUALIZAR BADGE DEL CARRITO
-// ================================================
-
+// COMPLETA: Actualiza el número que aparece en el badge del header
 function actualizarBadge() {
-
-  const badge =
-    document.getElementById(
-      'carrito-badge'
-    );
-
-
-  if (!badge) return;
-
-
-  const carrito =
-    leerCarrito();
-
-
-  badge.textContent =
-    carrito.length;
-
-
-  badge.classList.remove(
-    'oculto'
-  );
-
+  const badge = document.getElementById('carrito-badge');
+  if (!badge) return; // el badge puede no existir en todas las páginas
+  
+  const carrito = leerCarrito();
+  badge.textContent = carrito.length;
+  
+  badge.classList.remove('oculto');
 }
 
-
-// ================================================
-// AGREGAR PRODUCTO AL CARRITO
-// ================================================
-
+// COMPLETA: Agrega un producto al carrito
 function agregarAlCarrito(producto) {
-
-  const carrito =
-    leerCarrito();
-
-
+  const carrito = leerCarrito();
   carrito.push(producto);
-
-
-  guardarCarrito(carrito);
-
-
-  alert(
-    `✅ ${producto.nombre} agregado al carrito`
-  );
-
+  guardarCarrito(carrito); // guarda y actualiza badge
+  
+  // Feedback visual al usuario
+  alert(`✅ ${producto.nombre} agregado al carrito`);
 }
 
-
-// ================================================
-// BOTÓN "AGREGAR AL CARRITO"
-// DEL MODAL
-// ================================================
-
-const btnModalCarrito =
-  document.querySelector(
-    '.modal-btn-carrito'
-  );
-
-
+// Conectar el botón "Agregar al carrito" del modal
+const btnModalCarrito = document.querySelector('.modal-btn-carrito');
 if (btnModalCarrito) {
-
-  btnModalCarrito.addEventListener(
-    'click',
-    function() {
-
-
-      const modalTitulo =
-        document.getElementById(
-          'modal-titulo'
-        );
-
-
-      const modalPrecio =
-        document.getElementById(
-          'modal-precio'
-        );
-
-
-      const modalIcono =
-        document.getElementById(
-          'modal-icono'
-        );
-
-
-      const producto = {
-
-        nombre:
-          modalTitulo
-            ? modalTitulo.textContent
-            : 'Producto',
-
-        precio:
-          modalPrecio
-            ? modalPrecio.textContent
-            : '',
-
-        icono:
-          modalIcono
-            ? modalIcono.textContent
-            : '📦',
-
-        fecha:
-          new Date().toLocaleDateString(
-            'es-CO'
-          )
-
-      };
-
-
-      agregarAlCarrito(producto);
-
-
-      const modalProducto =
-        document.getElementById(
-          'modal-producto'
-        );
-
-
-      if (modalProducto) {
-
-        modalProducto.classList.remove(
-          'visible'
-        );
-
-      }
-
-    }
-  );
-
+  btnModalCarrito.addEventListener('click', function() {
+    // Leer los datos del producto desde el modal
+    const producto = {
+      id:      modal.dataset.id      || '',
+      _id:     modal.dataset.mongoId || '',
+      nombre:  document.getElementById('modal-titulo').textContent,
+      precio:  document.getElementById('modal-precio').textContent,
+      icono:   document.getElementById('modal-icono').textContent,
+      imagen:  modal.dataset.imagen  || '',
+      fecha:   new Date().toLocaleDateString('es-CO')
+    };
+    
+    agregarAlCarrito(producto);
+    // Cerrar el modal
+    document.getElementById('modal-producto').classList.remove('visible');
+  });
 }
 
-
-// ================================================
-// INICIALIZAR BADGE
-// ================================================
-
+// Inicializar el badge al cargar la página
 actualizarBadge();
 
-
-// ================================================
-// CLIC EN BADGE → CARRITO
-// ================================================
-
-const badgeContenedor =
-  document.querySelector(
-    '.carrito-badge-contenedor'
-  );
-
-
+// Clic en el badge → ir a carrito.html
+const badgeContenedor = document.querySelector('.carrito-badge-contenedor');
 if (badgeContenedor) {
-
-  badgeContenedor.addEventListener(
-    'click',
-    function() {
-
-      window.location.href =
-        'carrito.html';
-
-    }
-  );
-
+  badgeContenedor.addEventListener('click', function() {
+    window.location.href = 'carrito.html';
+  });
 }
 
+// ===== S07: PÁGINA CARRITO =====
 
-// ================================================
-// S07: PÁGINA CARRITO
-// ================================================
-
+// ✏️ COMPLETA: Solo ejecutar si estamos en carrito.html
 function mostrarPaginaCarrito() {
-
-  const lista =
-    document.getElementById(
-      'lista-carrito'
-    );
-
-
-  const resumen =
-    document.getElementById(
-      'carrito-resumen'
-    );
-
-
-  // Solo ejecutar en carrito.html
-  if (!lista) return;
-
-
-  const carrito =
-    leerCarrito();
-
-
-  // ================================================
-  // CARRITO VACÍO
-  // ================================================
-
+  const lista = document.getElementById('lista-carrito');
+  const resumen = document.getElementById('carrito-resumen');
+  if (!lista) return; // no estamos en carrito.html
+  
+  const carrito = leerCarrito();
+  
   if (carrito.length === 0) {
-
-    if (resumen) {
-
-      resumen.textContent =
-        'Tu carrito está vacío';
-
-    }
-
-
-    lista.innerHTML = `
-      <p class="carrito-vacio">
-
-        No hay productos en el carrito.
-
-        <a href="index.html">
-          Ver productos →
-        </a>
-
-      </p>
-    `;
-
-
+    resumen.textContent = 'Tu carrito está vacío';
+    lista.innerHTML = '<p class="carrito-vacio">No hay productos en el carrito. <a href="index.html">Ver productos →</a></p>';
     return;
-
   }
+  
+  resumen.textContent = `${carrito.length} producto(s) en el carrito`;
+  
+  lista.innerHTML = ''; // limpiar antes de renderizar
+  
+  carrito.forEach(function(producto, indice) {
+    const item = document.createElement('div');
+    item.classList.add('carrito-item');
 
-
-  // ================================================
-  // RESUMEN
-  // ================================================
-
-  if (resumen) {
-
-    resumen.textContent =
-      `${carrito.length} producto(s) en el carrito`;
-
-  }
-
-
-  // Limpiar lista antes de renderizar
-  lista.innerHTML = '';
-
-
-  // ================================================
-  // CREAR ITEMS
-  // ================================================
-
-  carrito.forEach(function(
-    producto,
-    indice
-  ) {
-
-    const item =
-      document.createElement('div');
-
-
-    item.classList.add(
-      'carrito-item'
-    );
-
+    // Si tiene imagen - mostrarla. Si no - mostrar el emoji.
+    const imagenHTML = producto.imagen
+    ? `<img src="${producto.imagen}" alt="${producto.nombre}" class="carrito-item-img">`
+    : `<span class="carrito-item-icono">${producto.icono}</span>`;
 
     item.innerHTML = `
-
-      <span class="carrito-item-icono">
-        ${producto.icono}
-      </span>
-
+      ${imagenHTML}
+      <span class="carrito-item-icono">${producto.icono}</span>
       <div class="carrito-item-info">
-
-        <div class="carrito-item-nombre">
-          ${producto.nombre}
-        </div>
-
-        <div class="carrito-item-precio">
-          ${producto.precio}
-        </div>
-
-        <div class="carrito-item-fecha">
-          Agregado: ${producto.fecha}
-        </div>
-
+        <div class="carrito-item-nombre">${producto.nombre}</div>
+        <div class="carrito-item-precio">${producto.precio}</div>
+        <div class="carrito-item-fecha">Agregado: ${producto.fecha}</div>
       </div>
-
-      <button
-        class="btn-eliminar"
-        data-indice="${indice}">
-
-        Eliminar
-
-      </button>
-
+      <button class="btn-eliminar" data-indice="${indice}">Eliminar</button>
     `;
-
-
     lista.appendChild(item);
-
   });
+  
+  // Conectar los botones "Eliminar"
+  document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const indice = parseInt(this.dataset.indice);
+      const carritoActual = leerCarrito();
+      carritoActual.splice(indice, 1); // eliminar ese índice
+      guardarCarrito(carritoActual);
+      mostrarPaginaCarrito(); // re-renderizar
+    });
+  });
+}
 
+// Botón vaciar carrito
+const btnVaciar = document.getElementById('btn-vaciar');
+if (btnVaciar) {
+  btnVaciar.addEventListener('click', function() {
+    if (confirm('¿Seguro que quieres vaciar el carrito?')) {
+      localStorage.removeItem('carrito');
+      actualizarBadge();
+      mostrarPaginaCarrito();
+    }
+  });
+}
 
-  // ================================================
-  // BOTONES ELIMINAR
-  // ================================================
+mostrarPaginaCarrito(); // llamar al cargar
 
-  document
-    .querySelectorAll('.btn-eliminar')
-    .forEach(function(btn) {
+// ====== S17 ESTADO DE SESIÓN EN EL NAV ====
+// Lee el token del localstore y actualiza y actualiza el nav en todas las páginas 
 
+function actualizarNavSesion() {
+  const token        = localStorage.getItem('token');
+  const nombre       = localStorage.getItem('usuario-nombre');
+  const enlaceLogin  = document.querySelector('#nav-login');
 
-      btn.addEventListener(
-        'click',
-        function() {
+  if (!enlaceLogin) return;
 
+  if (token && nombre) {
+    // 1. Construir wrapper y botón con el nombre
+    const wrapper = document.createElement('div');
+    wrapper.className = 'usuario-dropdown';
+    const btn = document.createElement('button');
+    btn.className = 'usuario-btn';
+    btn.textContent = '👤 ' + nombre;
 
-          const indice =
-            parseInt(
-              this.dataset.indice
-            );
+    // 2. Construir menú con las tres opciones
+    const menu = document.createElement('div');
+    menu.className = 'usuario-menu';
+    const linkPerfil = document.createElement('a');
+    linkPerfil.href = 'perfil.html'; linkPerfil.textContent = '👤 Mi perfil';
+    const linkPedidos = document.createElement('a');
+    linkPedidos.href = 'mispedidos.html'; linkPedidos.textContent = '📦 Mis pedidos';
+    const sep = document.createElement('div');
+    sep.className = 'menu-separador';
+    const btnCerrar = document.createElement('button');
+    btnCerrar.className = 'btn-cerrar-sesion';
+    btnCerrar.textContent = '🚪 Cerrar sesión';
+    btnCerrar.addEventListener('click', function () {
+      localStorage.removeItem('token'); localStorage.removeItem('usuario-nombre');
+      window.location.href = 'login.html';
+    });
+    menu.appendChild(linkPerfil); menu.appendChild(linkPedidos);
+    menu.appendChild(sep); menu.appendChild(btnCerrar);
+    wrapper.appendChild(btn); wrapper.appendChild(menu);
 
-
-          const carritoActual =
-            leerCarrito();
-
-
-          carritoActual.splice(
-            indice,
-            1
-          );
-
-
-          guardarCarrito(
-            carritoActual
-          );
-
-
-          mostrarPaginaCarrito();
-
-        }
-      );
-
+    // 3. Ocultar "Registro" — no tiene sentido estando logueado
+    const navMenu = document.querySelector('#nav-menu');
+    if (navMenu) navMenu.querySelectorAll('a').forEach(function (a) {
+      if (a.href.includes('registro.html')) a.style.display = 'none';
     });
 
+    // 4. Reemplazar el <a id="nav-login"> por el dropdown
+    enlaceLogin.parentNode.replaceChild(wrapper, enlaceLogin);
+
+    // 5. Abrir/cerrar al hacer clic; cerrar al clic fuera
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation(); menu.classList.toggle('abierto');
+    });
+    document.addEventListener('click', function (e) {
+      if (!wrapper.contains(e.target)) menu.classList.remove('abierto');
+    });
+
+  } else {
+    enlaceLogin.textContent = 'Login';
+    enlaceLogin.href = 'login.html';
+  }
 }
 
+actualizarNavSesion();
 
-// ================================================
-// BOTÓN VACIAR CARRITO
-// ================================================
+// ===== S18A: CHECKOUT — PAGAR CON WOMPI =====
+// Ya no se crea la orden directamente. Se pide una firma al backend,
+// se abre el Widget de Wompi, y la orden se crea solo si el pago es aprobado
+// (el backend lo confirma vía polling, ver /api/pagos/estado/:reference).
 
-const btnVaciar =
-  document.getElementById(
-    'btn-vaciar'
-  );
+const btnConfirmar = document.getElementById('btn-confirmar');
+let pollingInterval = null;
 
+if (btnConfirmar) {
+  btnConfirmar.addEventListener('click', async function() {
+    const token   = localStorage.getItem('token');
+    const carrito = leerCarrito();
+    const mensaje = document.getElementById('checkout-mensaje');
 
-if (btnVaciar) {
+    if (!token) {
+      mensaje.innerHTML =
+        '<div style="background:#fef9c3; border:1px solid #fde047; border-radius:10px; padding:16px;">' +
+          '<p style="color:#854d0e; font-weight:600;">⚠️ Debes iniciar sesión para confirmar tu pedido.</p>' +
+          '<a href="login.html" style="color:#92400e;">Ir al login →</a>' +
+        '</div>';
+      mensaje.style.display = 'block';
+      return;
+    }
 
-  btnVaciar.addEventListener(
-    'click',
-    function() {
+    if (carrito.length === 0) {
+      mensaje.innerHTML =
+        '<div style="background:#fef9c3; border:1px solid #fde047; border-radius:10px; padding:16px;">' +
+          '<p style="color:#854d0e; font-weight:600;">⚠️ El carrito está vacío.</p>' +
+        '</div>';
+      mensaje.style.display = 'block';
+      return;
+    }
 
+    const productosParaEnviar = carrito.map(function(item) {
+      return { producto: item.id, cantidad: 1 };
+    });
 
-      if (
-        confirm(
-          '¿Seguro que quieres vaciar el carrito?'
-        )
-      ) {
+    // Calcular el total — el precio viene como string "$1.299.000".
+    // Los puntos son separadores de miles (formato colombiano), no decimales — hay que quitarlos.
+    const total = carrito.reduce(function(acumulado, item) {
+      const numero = parseFloat(item.precio.replace(/[^0-9]/g, '')) || 0;
+      return acumulado + numero;
+    }, 0);
 
-        localStorage.removeItem(
-          'carrito'
-        );
+    try {
+      btnConfirmar.disabled    = true;
+      btnConfirmar.textContent = 'Preparando pago...';
 
+      // Pedir al backend la firma de integridad (crea la Transaccion en estado PENDING)
+      const respuesta = await fetch('http://localhost:3000/api/pagos/firma', {
+        method:  'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ productos: productosParaEnviar, total: total })
+      });
 
-        actualizarBadge();
+      const datos = await respuesta.json();
 
-
-        mostrarPaginaCarrito();
-
+      if (!respuesta.ok) {
+        mensaje.innerHTML =
+          '<div style="background:#fee2e2; border:1px solid #fca5a5; border-radius:10px; padding:16px;">' +
+            '<p style="color:#991b1b; font-weight:600;">❌ ' + (datos.error || 'Error al preparar el pago') + '</p>' +
+          '</div>';
+        mensaje.style.display = 'block';
+        btnConfirmar.disabled    = false;
+        btnConfirmar.textContent = '💳 Pagar con Wompi';
+        return;
       }
 
-    }
-  );
+      // Abrir el Widget de Wompi con los datos de la firma
+      const checkout = new WidgetCheckout({
+        currency:      datos.currency,
+        amountInCents: datos.amountInCents,
+        reference:     datos.reference,
+        publicKey:     datos.publicKey,
+        signature:     { integrity: datos.signature }
+      });
 
+      checkout.open(function() {
+        // Este callback se ejecuta cuando el widget se cierra (pago terminado o cancelado)
+        iniciarPolling(datos.reference, token, mensaje);
+      });
+
+    } catch (error) {
+      mensaje.innerHTML =
+        '<div style="background:#fee2e2; border:1px solid #fca5a5; border-radius:10px; padding:16px;">' +
+          '<p style="color:#991b1b; font-weight:600;">❌ No se pudo conectar. Verifica que el servidor esté corriendo.</p>' +
+        '</div>';
+      mensaje.style.display = 'block';
+      btnConfirmar.disabled    = false;
+      btnConfirmar.textContent = '💳 Pagar con Wompi';
+    }
+  });
 }
 
+// Consulta cada 3 segundos si el pago ya fue aprobado por Wompi.
+// Máximo 20 intentos (60 segundos) antes de mostrar timeout.
+function iniciarPolling(reference, token, mensaje) {
+  btnConfirmar.textContent = 'Confirmando pago...';
+  let intentos = 0;
 
-// ================================================
-// MOSTRAR PÁGINA CARRITO
-// ================================================
+  pollingInterval = setInterval(async function() {
+    intentos++;
+    if (intentos > 20) {
+      clearInterval(pollingInterval);
+      mostrarResultadoPago('TIMEOUT', mensaje);
+      return;
+    }
 
-mostrarPaginaCarrito();
+    try {
+      const r = await fetch('http://localhost:3000/api/pagos/estado/' + reference, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const data = await r.json();
+
+      if (data.status !== 'PENDING') {
+        clearInterval(pollingInterval);
+        mostrarResultadoPago(data.status, mensaje);
+      }
+    } catch (e) {
+      console.error('Polling error', e);
+    }
+  }, 3000);
+}
+
+function mostrarResultadoPago(status, mensaje) {
+  if (status === 'APPROVED') {
+    localStorage.removeItem('carrito');
+    actualizarBadge();
+
+    mensaje.innerHTML =
+      '<div style="background:#dcfce7; border:1px solid #bbf7d0; border-radius:10px; padding:20px;">' +
+        '<p style="color:#15803d; font-weight:700; font-size:16px;">✅ ¡Pago aprobado!</p>' +
+        '<p style="color:#166534; font-size:13px; margin-top:6px;">Tu orden fue registrada en el sistema.</p>' +
+        '<a href="index.html" style="color:#15803d; font-weight:600;">← Volver al inicio</a>' +
+      '</div>';
+    mensaje.style.display = 'block';
+
+    mostrarPaginaCarrito(); // actualizar la vista del carrito (ahora vacío)
+
+  } else if (status === 'DECLINED') {
+    mensaje.innerHTML =
+      '<div style="background:#fee2e2; border:1px solid #fca5a5; border-radius:10px; padding:16px;">' +
+        '<p style="color:#991b1b; font-weight:600;">❌ Pago rechazado. Intenta con otra tarjeta.</p>' +
+      '</div>';
+    mensaje.style.display = 'block';
+    btnConfirmar.disabled    = false;
+    btnConfirmar.textContent = '💳 Pagar con Wompi';
+
+  } else {
+    mensaje.innerHTML =
+      '<div style="background:#fef9c3; border:1px solid #fde047; border-radius:10px; padding:16px;">' +
+        '<p style="color:#854d0e; font-weight:600;">⏱️ No pudimos confirmar el pago todavía. Revisa "Mis pedidos" en un momento.</p>' +
+      '</div>';
+    mensaje.style.display = 'block';
+    btnConfirmar.disabled    = false;
+    btnConfirmar.textContent = '💳 Pagar con Wompi';
+  }
+}

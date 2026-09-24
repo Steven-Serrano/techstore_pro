@@ -25,11 +25,15 @@ const ordenSchema = new Schema({
         estado: { 
             type: String,
             default: 'pendiente',
-            enum: ['pendiente', 'procesando', 'enviado', 'entregado' ]
-        }
+            enum: ['pendiente', 'procesando', 'enviado', 'entregado', 'PAGO_CONFIRMADO' ]
+        },
+        wompiTransactionId: { type: String },
+  wompiReference:     { type: String }
 
-    }, {timestamps: true});
+    }, 
+    
+    {timestamps: true});
 
-    const Orden = mongoose.model ('Orden', ordenSchema);
-    module.exports = Orden; 
+    module.exports = mongoose.models.Orden || mongoose.model('Orden', ordenSchema);
+   
 
