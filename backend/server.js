@@ -1,4 +1,4 @@
-// 1. IMPORTAR LAS DEPENDENCIAS 
+﻿// 1. IMPORTAR LAS DEPENDENCIAS 
 
 require('dotenv').config();
 const express         = require('express');
@@ -9,7 +9,8 @@ const authRoutes      = require('./routes/auth');
 const verificarToken  = require('./middleware/auth');
 const productosRoutes = require('./routes/productos')
 const ordenesRoutes   = require('./routes/ordenes')
-const pagoRoutes      = require('./routes/pago');  // ← AGREGAR S18A
+const pagoRoutes      = require('./routes/pago');
+const contactoRoutes  = require('./routes/contacto');  // ← AGREGAR S18A
 
 
 // 2. CREAR LA APICACION Y DEFINIR EL PUERTO 
@@ -58,4 +59,8 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/ordenes', ordenesRoutes);
 
 //14. ruta de pago
-app.use('/api/pagos', pagoRoutes);  // ← AGREGAR S18A
+app.use('/api/pagos', pagoRoutes);
+
+app.use('/api/contacto', contactoRoutes);  // ← AGREGAR S18A
+
+
