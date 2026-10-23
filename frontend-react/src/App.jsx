@@ -3,23 +3,25 @@ import Navbar from './Navbar.jsx'
 import Footer from './Footer.jsx'
 import Home from './Home.jsx'
 import Productos from './Productos.jsx'
+import Nosotros from './Nosotros.jsx'
+import Contacto from './Contacto.jsx'
 import NotFound from './NotFound.jsx'
 
 function App() {
   return (
-    <main className="min-h-screen max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col justify-between gap-10">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/productos" element={<Productos />} />
-        {/* La ruta comodín debe ir SIEMPRE al final */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      
+      <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-10">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
       <Footer />
-    </main>
+    </div>
   )
 }
-
 export default App
