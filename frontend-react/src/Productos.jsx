@@ -1,99 +1,67 @@
-﻿import { useState, useEffect } from 'react'
-import ProductCard from './ProductCard.jsx'
+import { useState, useEffect } from "react"
+import ProductCard from "./ProductCard.jsx"
+import ProductoModal from "./ProductoModal.jsx"
+
+function precioNumero(p) {
+  return Number(p.precio.replace(/\D/g, ""))
+}
 
 function Productos() {
   const [busqueda, setBusqueda] = useState("")
   const [productos, setProductos] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
+  const [seleccionado, setSeleccionado] = useState(null)
+  const [orden, setOrden] = useState("original")
 
-  const cargarProductos = () => {
+  function cargarProductos() {
     setCargando(true)
     setError(null)
-    
     fetch("http://localhost:3000/api/productos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error del servidor: " + res.status)
-        return res.json()
-      })
+      .then((res) => res.json())
       .then((datos) => setProductos(datos))
-      .catch(() => setError("No se pudo conectar al servidor. ¿Está el backend corriendo?"))
+      .catch(() => setError("No se pudo conectar al servidor"))
       .finally(() => setCargando(false))
   }
 
-  useEffect(() => {
-    cargarProductos()
-  }, [])
+  useEffect(() => { cargarProductos() }, [])
 
-  const productosFiltrados = productos.filter((p) => 
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  )
+  const filtrados = productos.filter((p) => p.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+  const ordenados = [...filtrados]
+
+  if (orden === "menor") ordenados.sort((a, b) => precioNumero(a) - precioNumero(b))
+  if (orden === "mayor") ordenados.sort((a, b) => precioNumero(b) - precioNumero(a))
+  if (orden === "nombre") ordenados.sort((a, b) => a.nombre.localeCompare(b.nombre))
+  if (orden === "nombreinv") ordenados.sort((a, b) => b.nombre.localeCompare(a.nombre))
 
   return (
-    <div className="flex flex-col gap-8">
-      {/* Barra de controles */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 justify-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <input
-          type="text"
-          placeholder="Buscar producto..."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          className="w-full sm:max-w-md px-4 py-2 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-verde transition"
-        />
-        
-        <button 
-          onClick={() => setBusqueda("")}
-          className="w-full sm:w-auto px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-300 transition"
-        >
-          Limpiar
-        </button>
-
-        <button
-          onClick={cargarProductos}
-          disabled={cargando}
-          className="w-full sm:w-auto px-4 py-2 bg-verde text-white rounded-lg font-bold text-sm whitespace-nowrap hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-2"
-        >
-          {cargando ? "Cargando..." : "↻ Recargar"}
-        </button>
-        
-        {!cargando && !error && (
-          <div className="text-sm text-texto-dim whitespace-nowrap flex flex-col items-end min-w-[120px]">
-            <span className="font-medium text-gray-700">{productosFiltrados.length} encontrado(s)</span>
-            <span className="text-xs">({productos.length} en total en la BD)</span>
-          </div>
-        )}
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-wrap items-center gap-3">
+        <input type="text" placeholder="Buscar producto..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-card focus:outline-none focus:border-ink" />
+        <select value={orden} onChange={(e) => setOrden(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-card bg-paper text-sm focus:outline-none focus:border-ink">
+          <option value="original">Orden original</option>
+          <option value="menor">Menor precio</option>
+          <option value="mayor">Mayor precio</option>
+          <option value="nombre">Nombre A–Z</option>
+          <option value="nombreinv">Nombre Z–A</option>
+        </select>
+        {busqueda && <p className="text-sm text-gray-500 whitespace-nowrap">{filtrados.length} {filtrados.length === 1 ? "resultado" : "resultados"}</p>}
       </div>
 
-      {/* Estados */}
-      {cargando && <p className="text-center py-10 text-lg text-slate-500 animate-pulse">Cargando productos desde el backend...</p>}
-      {error && <p className="text-center text-red-600 py-10 text-lg font-bold bg-red-50 rounded-lg border border-red-200">⚠️ {error}</p>}
+      {cargando && <p className="text-center py-10">Cargando productos...</p>}
+      {error && <p className="text-center text-accent-dark py-10">{error}</p>}
       
-      {/* Catálogo */}
       {!cargando && !error && (
-        <>
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {productosFiltrados.map((p) => (
-              <ProductCard
-                key={p.id || p.nombre}
-                nombre={p.nombre}
-                descripcion={p.descripcion}
-                precio={p.precio}
-                imagen={p.imagen}
-                icono={p.icono}
-                stock={p.stock || 0}
-              />
-            ))}
-          </section>
-
-          {productosFiltrados.length === 0 && (
-            <p className="text-center text-texto-dim py-10 text-lg bg-white rounded-xl border border-gray-100">
-              No se encontraron productos con ese nombre.
-            </p>
-          )}
-        </>
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ordenados.map((p) => (
+            <ProductCard key={p.id} id={p.id} nombre={p.nombre} descripcion={p.descripcion} precio={p.precio} imagen={p.imagen} onVer={() => setSeleccionado(p)} />
+          ))}
+        </section>
       )}
+      {!cargando && !error && filtrados.length === 0 && <p className="text-center text-gray-500 py-10">No se encontraron productos con ese nombre.</p>}
+
+      {seleccionado && <ProductoModal producto={seleccionado} onCerrar={() => setSeleccionado(null)} />}
     </div>
   )
 }
-
 export default Productos
