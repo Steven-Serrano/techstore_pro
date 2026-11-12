@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
-import { useCarrito } from "./context/CarritoContext.jsx"
+import { useCarrito } from "../context/CarritoContext.jsx"
 
 function ProductoModal({ producto, onCerrar }) {
   const { agregarAlCarrito } = useCarrito()

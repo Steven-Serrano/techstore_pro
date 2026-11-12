@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useCarrito } from "./context/CarritoContext.jsx"
-import { useAuth } from "./context/AuthContext.jsx"
+import { useCarrito } from "../context/CarritoContext.jsx"
+import { useAuth } from "../context/AuthContext.jsx"
 
 function precioANumero(precioTexto) {
   return Number(precioTexto.replace(/\D/g, ""))

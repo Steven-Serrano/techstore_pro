@@ -1,4 +1,4 @@
-import { useCarrito } from './context/CarritoContext.jsx'
+import { useCarrito } from '../context/CarritoContext.jsx'
 
 function ProductCard(props) {
   const { agregarAlCarrito } = useCarrito()

@@ -1,16 +1,15 @@
 import { Routes, Route } from 'react-router-dom'
-import Navbar from './Navbar.jsx'
-import Footer from './Footer.jsx'
-import Home from './Home.jsx'
-import Productos from './Productos.jsx'
-import Nosotros from './Nosotros.jsx'
-import Contacto from './Contacto.jsx'
-import NotFound from './NotFound.jsx'
-import ProductoDetalle from "./ProductoDetalle.jsx";
-import ProductoModal from "./ProductoModal.jsx";
-import Login from "./Login.jsx";
-import Registro from "./Registro.jsx";
-import Carrito from "./Carrito.jsx";
+import Navbar from './components/Navbar.jsx'
+import Footer from './components/Footer.jsx'
+import Home from './pages/Home.jsx'
+import Productos from './pages/Productos.jsx'
+import ProductoDetalle from './pages/ProductoDetalle.jsx'
+import Nosotros from './pages/Nosotros.jsx'
+import Contacto from './pages/Contacto.jsx'
+import Login from './pages/Login.jsx'
+import Registro from './pages/Registro.jsx'
+import Carrito from './pages/Carrito.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 function App() {
   return (
@@ -20,12 +19,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Productos />} />
+          <Route path="/productos/:id" element={<ProductoDetalle />} />
+          <Route path="/carrito" element={<Carrito />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/contacto" element={<Contacto />} />
-          <Route path="/carrito" element={<Carrito />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
-             <Route path="/productos/:id" element={<ProductoDetalle />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -34,4 +33,3 @@ function App() {
   )
 }
 export default App
-  

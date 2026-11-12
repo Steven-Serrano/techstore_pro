@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import { useCarrito } from "./context/CarritoContext.jsx"
+import { useCarrito } from "../context/CarritoContext.jsx"
 
 function ProductoDetalle() {
   const { id } = useParams()

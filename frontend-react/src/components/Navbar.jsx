@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useCarrito } from './context/CarritoContext.jsx'
-import { useAuth } from './context/AuthContext.jsx'
+import { useCarrito } from '../context/CarritoContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function Navbar() {
   const ubicacion = useLocation()
