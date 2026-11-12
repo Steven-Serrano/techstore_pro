@@ -1,11 +1,11 @@
-﻿import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useCarrito } from './context/CarritoContext.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 
 function Navbar() {
   const ubicacion = useLocation()
   const { carrito, vaciarCarrito } = useCarrito()
-  const { usuario, login, logout } = useAuth()
+  const { usuario, logout } = useAuth()
 
   return (
     <nav className="flex items-center justify-between px-4 sm:px-8 py-4 bg-paper border-b border-gray-100 rounded-xl shadow-sm sticky top-0 z-50">
@@ -21,20 +21,27 @@ function Navbar() {
       </ul>
       
       <div className="flex items-center gap-4">
-        <div className="relative flex items-center gap-2">
+        <Link to="/carrito" className="relative flex items-center gap-2 hover:opacity-80 transition">
           <span className="text-2xl">🛒</span>
           {carrito.length > 0 && (
-            <>
-              <span className="absolute -top-2 -right-2 bg-accent text-paper text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-bounce shadow-sm">
-                {carrito.length}
-              </span>
-              <button onClick={vaciarCarrito} className="text-xs text-gray-500 hover:text-accent font-bold ml-4 transition" title="Vaciar carrito">🗑️</button>
-            </>
+            <span className="absolute -top-2 -right-2 bg-accent text-paper text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-bounce shadow-sm">
+              {carrito.reduce((acc, prod) => acc + prod.cantidad, 0)}
+            </span>
           )}
-        </div>
-        <button onClick={() => usuario ? logout() : login('Admin')} className="bg-ink text-paper py-2 px-5 rounded-lg font-display font-bold text-sm hover:bg-accent transition">
-          {usuario ? `Salir (${usuario.nombre})` : 'Ingresar'}
-        </button>
+        </Link>
+
+        {usuario ? (
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-semibold text-gray-700">Hola, {usuario.nombre}</span>
+            <button onClick={logout} className="bg-ink text-paper py-2 px-5 rounded-lg font-display font-bold text-sm hover:bg-accent transition">
+              Salir
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" className="bg-ink text-paper py-2 px-5 rounded-lg font-display font-bold text-sm hover:bg-accent transition">
+            Ingresar
+          </Link>
+        )}
       </div>
     </nav>
   )
