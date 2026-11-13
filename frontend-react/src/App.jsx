@@ -9,6 +9,7 @@ import Contacto from './pages/Contacto.jsx'
 import Login from './pages/Login.jsx'
 import Registro from './pages/Registro.jsx'
 import Carrito from './pages/Carrito.jsx'
+import PagoResultado from './pages/PagoResultado.jsx' // <-- AGREGA ESTO
 import NotFound from './pages/NotFound.jsx'
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/pago/:referencia" element={<PagoResultado />} />
+
           <Route path="/registro" element={<Registro />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
